@@ -1,6 +1,5 @@
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import java.util.List;
 
@@ -10,12 +9,11 @@ public class Root {
     public final List<Element> list;
 
     @JsonCreator
-    public Root (@JacksonXmlProperty @JsonProperty ("element") Element e,
-                 @JacksonXmlProperty @JsonProperty ("list") List<Element> l) {
+    public Root (@JsonProperty ("element") Element e,
+                 @JsonProperty ("list") List<Element> l) {
 
         this.element = e;
         this.list = l;
 
     }
-
 }

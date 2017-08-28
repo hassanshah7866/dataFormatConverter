@@ -24,6 +24,7 @@ public class DataFormatConverter {
             parser.convert();
         }catch (Exception e) {
             logger.error(e.toString());
+            System.out.println(e.toString());
         }
     }
 
