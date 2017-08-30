@@ -6,9 +6,8 @@ public class DataFormat {
     public final Root root;
 
     @JsonCreator
-    public DataFormat(@JsonProperty Root r) {
+    public DataFormat(@JsonProperty ("root") Root root) {
 
-        this.root = r;
+        this.root = root;
     }
-
 }
