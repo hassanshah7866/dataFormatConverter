@@ -7,15 +7,10 @@ import java.util.List;
 
 public class Root {
 
-    public final Element element;
+    @JsonProperty("element")
+    public Integer element;
 
-    public final ListClass listClass;
+    @JsonProperty("list")
+    public List<String> list;
 
-    @JsonCreator
-    public Root (@JsonProperty ("element") Element e,
-                 @JsonProperty ("list") ListClass lc) {
-
-        this.element = e;
-        this.listClass = lc;
-    }
 }

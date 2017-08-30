@@ -60,7 +60,7 @@ public class ParserTests {
             DataFormat fromJson = jsonMapper.readValue(json, DataFormat.class);
 
             //String element1 = fromXml.root.element;
-            Element element2 = fromJson.root.element;
+            Integer element2 = fromJson.root.element;
 
             //Assert.assertEquals(element1, "78");
             Assert.assertEquals(element2, "78");
@@ -75,8 +75,8 @@ public class ParserTests {
 
         //String json = "{\"element\": 78}";
 
-        String json = "{\"element\": 78, \"list\":{\"element\": [5]}}";
-        //String json = "{\"element\": 78, \"list\":[1,2,3]}";
+        //String json = "{\"element\": 78, \"list\":{\"element\": [5]}}";
+        String json = "{\"element\": 78, \"list\":[1,2,3]}";
 
 
         /*
@@ -107,11 +107,11 @@ public class ParserTests {
 
             //JsonNode rootNode = jsonMapper.readTree(json).get("element");
 
-            Element element1 = rootFromJson.element;
-            ListClass lc = rootFromJson.listClass;
+            Integer element1 = rootFromJson.element;
+            //ListClass lc = rootFromJson.listClass;
             //String element2 = rootFromXml.element;
 
-            Assert.assertEquals((int)element1.element, 78);
+            Assert.assertEquals((int)element1, 78);
 
         } catch (IOException e) {
             Assert.fail(e.toString());
