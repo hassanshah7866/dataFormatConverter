@@ -1,28 +1,24 @@
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.fasterxml.jackson.core.type.TypeReference;
 
-import java.util.ArrayList;
-import java.util.List;
+//
+//Unused class!
+//
 
 public class Element {
 
     @JsonIgnore
-    public static final TypeReference<ArrayList<Element>> typeReference = new TypeReference<ArrayList<Element>>() {};
+    public Integer value;
 
-    @JsonProperty ("element")
-    public final Integer element;
-
+    /**
     @JsonCreator
-    public Element (Integer e) {
-
-        this.element = e;
+    public Element (@JsonProperty ("element") Integer value) {
+        this.value = value;
     }
+    */
 
-    @JsonValue(false)
-    public Integer toJson() {
-        return this.element;
+    @JsonValue
+    public Integer toInt () {
+        return this.value;
     }
 }
