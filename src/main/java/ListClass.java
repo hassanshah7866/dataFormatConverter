@@ -1,10 +1,9 @@
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 
-public class ElementList{
+public class ListClass {
 
     @JsonProperty("element")
-    public List<Integer> list;
+    public List<Element> element;
 
 }
