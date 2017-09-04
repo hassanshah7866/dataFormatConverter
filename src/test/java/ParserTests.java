@@ -26,16 +26,7 @@ public class ParserTests {
                         "}\n" +
                         "}";
 
-        String json2 = "{\n" +
-                "\"root\": {\n" +
-                "\"element\": 78,\n" +
-                "\"element\": [\n" +
-                "1,\n" +
-                "2,\n" +
-                "3\n" +
-                "]\n" +
-                "}\n" +
-                "}";
+        String correctXml = "<root><element>78</element><list><element>1</element><element>2</element><element>3</element></list></root>";
 
         ObjectMapper jsonMapper = new ObjectMapper();
         //jsonMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
@@ -45,17 +36,18 @@ public class ParserTests {
             Root root = jsonMapper.readValue(json1, Root.class);
             //Root root = jsonMapper.readValue(json,Root.class);
             String xml = xmlMapper.writeValueAsString(root);
-            Assert.assertEquals("<root><element>78</element><list><element>1</element><element>2</element><element>3</element></list><root>", xml);
+            Assert.assertEquals(correctXml, xml);
         }catch (Exception e) {
 
             Assert.fail(e.toString());
         }
     }
 
-    @Test
-    public void parseRootFromJsonUsingTree () {
 
-        String json =
+    @Test
+    public void parseRootFromXml () {
+
+        String correctJson =
                 "{\n" +
                         "\"root\": {\n" +
                         "\"element\": 78,\n" +
@@ -69,57 +61,25 @@ public class ParserTests {
                         "}\n" +
                         "}";
 
+        String xml = "<root>\n" +
+                "<element>78</element>\n" +
+                "<list>\n" +
+                "<element>1</element>\n" +
+                "<element>2</element>\n" +
+                "<element>3</element>\n" +
+                "</list>\n" +
+                "</root>";
+
         ObjectMapper jsonMapper = new ObjectMapper();
-        jsonMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
         ObjectMapper xmlMapper = new XmlMapper();
         try{
             //Integer element = jsonMapper.readValue(json, Integer.TYPE);
-            JsonNode node = jsonMapper.readTree(json);
-            //DataFormat dataFormat = jsonMapper.readValue(json, DataFormat.class);
-            String xml = xmlMapper.writerWithDefaultPrettyPrinter().writeValueAsString(node);
-            Assert.assertEquals("<root><element>78</element><list><element>1</element><element>2</element><element>3</element></list><root>", xml);
+            Root root = xmlMapper.readValue(xml, Root.class);
+            String json = jsonMapper.writeValueAsString(root);
+            Assert.assertEquals(correctJson, json);
         }catch (Exception e) {
-            Assert.fail(e.toString());
-        }
-    }
 
-    @Test
-    public void parseRootFromXmlUsingTree () {
-
-        String xml =
-                "<root>\n" +
-                        "<element>78</element>\n" +
-                        "<list>\n" +
-                        "<element>1</element>\n" +
-                        "<element>2</element>\n" +
-                        "<element>3</element>\n" +
-                        "</list>\n" +
-                "</root>";
-
-        String jsonString = "{\n" +
-                "\"root\": {\n" +
-                "\"element\": 78,\n" +
-                "\"list\": {\n" +
-                "\"element\": [\n" +
-                "1,\n" +
-                "2,\n" +
-                "3\n" +
-                "]\n" +
-                "}\n" +
-                "}\n" +
-                "}";
-
-        ObjectMapper jsonMapper = new ObjectMapper();
-        ObjectMapper xmlMapper = new XmlMapper();
-        try{
-
-            JsonNode node = xmlMapper.readTree(xml);
-            String json = jsonMapper.writeValueAsString(node);
-
-            Assert.assertEquals(jsonString, json);
-
-        }catch (Exception e) {
-            Assert.fail(e.toString());
+            Assert.fail();
         }
     }
 }
