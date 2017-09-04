@@ -38,7 +38,7 @@ public class ParserTests {
                 "}";
 
         ObjectMapper jsonMapper = new ObjectMapper();
-        jsonMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
+        //jsonMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
         ObjectMapper xmlMapper = new XmlMapper();
         try{
             //Integer element = jsonMapper.readValue(json, Integer.TYPE);
@@ -47,6 +47,7 @@ public class ParserTests {
             String xml = xmlMapper.writeValueAsString(root);
             Assert.assertEquals("<root><element>78</element><list><element>1</element><element>2</element><element>3</element></list><root>", xml);
         }catch (Exception e) {
+
             Assert.fail(e.toString());
         }
     }

@@ -4,15 +4,19 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class RootDeserializer extends StdDeserializer<Root> {
 
     public RootDeserializer () {
+
         this(null);
     }
 
     public RootDeserializer(Class<?> vc) {
+
         super(vc);
     }
 
@@ -21,22 +25,28 @@ public class RootDeserializer extends StdDeserializer<Root> {
                              throws IOException, JsonProcessingException {
 
         Root root = new Root();
-        JsonNode rootNode = jp.readValueAsTree();
-
+        JsonNode externalNode = jp.readValueAsTree();
+        JsonNode rootNode = externalNode.get("root");
         Integer element;
-        List<Integer> elements;
+        List<Integer> elements = new ArrayList<>();
 
         for (JsonNode node : rootNode) {
+
             if (node.isInt()) {
+
                 element = node.asInt();
                 root.element = element;
-
-            }else {
-                elements = (List<Integer>) node.elements();
-                root.list = elements;
+            } else {
+                node = node.elements().next();
+                for (Iterator<JsonNode> it = node.elements(); it.hasNext(); ) {
+                    JsonNode innerNode = it.next();
+                    elements.add(innerNode.asInt());
+                }
             }
+
+            root.list = elements;
         }
+
         return root;
     }
-
 }
