@@ -6,10 +6,11 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import java.util.List;
 
-@JacksonXmlRootElement(localName = "root")
+@JsonRootName("root")
+//@JacksonXmlRootElement(localName = "root")
 //@JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NAME)
-@JsonDeserialize(using = RootDeserializer.class)
-@JsonSerialize(using = RootSerializer.class)
+//@JsonDeserialize(using = RootDeserializer.class)
+//@JsonSerialize(using = RootSerializer.class)
 public class Root {
 
     //@JsonProperty("element")
@@ -18,7 +19,6 @@ public class Root {
 
     //@JsonProperty("list")
     @JacksonXmlElementWrapper(localName = "list")
-    @JacksonXmlProperty(localName = "element")
+    //@JacksonXmlProperty(localName = "element")
     public List<Integer> list;
-
 }

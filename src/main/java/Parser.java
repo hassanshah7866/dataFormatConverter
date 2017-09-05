@@ -1,5 +1,6 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import java.io.BufferedWriter;
@@ -16,10 +17,23 @@ public class Parser {
 
     public Parser(String name, Format inputFormat, Format outputFormat) {
 
-        inputMapper = getMapper(inputFormat);
-        outputMapper = getMapper(outputFormat);
-        outputMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(Root.class, new RootDeserializer());
+        module.addSerializer(Root.class, new RootSerializer());
 
+        inputMapper = getMapper(inputFormat);
+        inputMapper.registerModule(module);
+        outputMapper = getMapper(outputFormat);
+
+        if (outputMapper.getClass().equals(XmlMapper.class)) {
+
+            outputMapper.registerModule(module);
+        }else {
+
+            outputMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
+        }
+
+        outputMapper.enable(SerializationFeature.INDENT_OUTPUT);
         inFile = new File(name + "." + inputFormat.toString().toLowerCase());
         outFile = new File(name + "." + outputFormat.toString().toLowerCase());
     }
