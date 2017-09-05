@@ -1,12 +1,9 @@
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.io.IOException;
 
 public class ParserTests {
 
@@ -30,12 +27,11 @@ public class ParserTests {
         String correctXml = "<root><element>78</element><list><element>1</element><element>2</element><element>3</element></list></root>";
 
         ObjectMapper jsonMapper = new ObjectMapper();
+        ObjectMapper xmlMapper = new XmlMapper();
         SimpleModule module = new SimpleModule();
         module.addDeserializer(Root.class, new RootDeserializer());
         module.addSerializer(Root.class, new RootSerializer());
         jsonMapper.registerModule(module);
-        //jsonMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
-        ObjectMapper xmlMapper = new XmlMapper();
         xmlMapper.registerModule(module);
         try{
             Root root = jsonMapper.readValue(json, Root.class);
@@ -78,9 +74,9 @@ public class ParserTests {
         module.addDeserializer(Root.class, new RootDeserializer());
         module.addSerializer(Root.class, new RootSerializer());
         ObjectMapper jsonMapper = new ObjectMapper();
+        ObjectMapper xmlMapper = new XmlMapper();
         jsonMapper.registerModule(module);
         jsonMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
-        ObjectMapper xmlMapper = new XmlMapper();
         try{
 
             Root root = xmlMapper.readValue(xml, Root.class);

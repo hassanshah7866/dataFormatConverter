@@ -13,6 +13,7 @@ public class DataFormatConverter {
         Format outputFormat = Format.valueOf(args[1].toUpperCase());
 
         if (inputFormat.equals(outputFormat)) {
+
             String message = "Destination format same as source. No changes made.";
             System.out.println(message);
             logger.info(message);
@@ -21,11 +22,13 @@ public class DataFormatConverter {
 
         Parser parser = new Parser (fileName.substring(0, fileName.indexOf(".")), inputFormat, outputFormat);
         try {
+
             parser.convert();
+
         }catch (Exception e) {
+
             logger.error(e.toString());
             System.out.println(e.toString());
         }
     }
-
 }

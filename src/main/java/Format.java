@@ -1,1 +1,1 @@
-public enum Format {XML, JSON;}
+public enum Format {XML, JSON}

@@ -15,24 +15,12 @@ public class Parser {
     private final File inFile;
     private final File outFile;
 
+
     public Parser(String name, Format inputFormat, Format outputFormat) {
 
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(Root.class, new RootDeserializer());
-        module.addSerializer(Root.class, new RootSerializer());
 
-        inputMapper = getMapper(inputFormat);
-        inputMapper.registerModule(module);
-        outputMapper = getMapper(outputFormat);
-
-        if (outputMapper.getClass().equals(XmlMapper.class)) {
-
-            outputMapper.registerModule(module);
-        }else {
-
-            outputMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
-        }
-
+        inputMapper = createInputMapper(inputFormat);
+        outputMapper = createOutputMapper(outputFormat);
         outputMapper.enable(SerializationFeature.INDENT_OUTPUT);
         inFile = new File(name + "." + inputFormat.toString().toLowerCase());
         outFile = new File(name + "." + outputFormat.toString().toLowerCase());
@@ -48,8 +36,11 @@ public class Parser {
         bw.close();
     }
 
+    private static ObjectMapper createInputMapper (Format format) {
 
-    private static ObjectMapper getMapper (Format format) throws RuntimeException {
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(Root.class, new RootDeserializer());
+        module.addSerializer(Root.class, new RootSerializer());
 
         switch (format) {
 
@@ -57,7 +48,36 @@ public class Parser {
                 return new XmlMapper();
 
             case JSON:
-                return new ObjectMapper();
+                ObjectMapper jsonMapper = new ObjectMapper();
+                jsonMapper.registerModule(module);
+                return jsonMapper;
+
+            default:
+                throw new RuntimeException("Unsupported file type");
+        }
+
+    }
+
+    private static ObjectMapper createOutputMapper (Format format) {
+
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(Root.class, new RootDeserializer());
+        module.addSerializer(Root.class, new RootSerializer());
+
+        switch (format) {
+
+            case XML:
+
+                XmlMapper xmlMapper = new XmlMapper();
+                xmlMapper.registerModule(module);
+                return xmlMapper;
+
+            case JSON:
+
+                ObjectMapper jsonMapper = new ObjectMapper();
+                jsonMapper.registerModule(module);
+                jsonMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
+                return jsonMapper;
 
             default:
                 throw new RuntimeException("Unsupported file type");
