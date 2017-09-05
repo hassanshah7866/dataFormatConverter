@@ -26,11 +26,11 @@ public class Parser {
 
     public void convert () throws IOException {
 
-        DataFormat dataFormat = inputMapper.readValue(inFile, DataFormat.class);
+        Root root = inputMapper.readValue(inFile, Root.class);
         FileWriter fw = new FileWriter(outFile);
         fw.flush();
         BufferedWriter bw = new BufferedWriter(fw);
-        outputMapper.writeValue(bw, dataFormat);
+        outputMapper.writeValue(bw, root);
         bw.close();
     }
 

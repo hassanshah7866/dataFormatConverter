@@ -12,11 +12,11 @@ import java.util.List;
 @JsonSerialize(using = RootSerializer.class)
 public class Root {
 
-    @JsonProperty("element")
+    //@JsonProperty("element")
     @JacksonXmlProperty(localName = "element")
     public Integer element;
 
-    @JsonProperty("list")
+    //@JsonProperty("list")
     @JacksonXmlElementWrapper(localName = "list")
     @JacksonXmlProperty(localName = "element")
     public List<Integer> list;

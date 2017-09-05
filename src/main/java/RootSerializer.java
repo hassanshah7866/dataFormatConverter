@@ -7,10 +7,12 @@ import java.io.IOException;
 public class RootSerializer extends StdSerializer<Root> {
 
     public RootSerializer () {
+
         this(null);
     }
 
     public RootSerializer (Class<Root> t) {
+
         super(t);
     }
 
@@ -24,12 +26,14 @@ public class RootSerializer extends StdSerializer<Root> {
         jgen.writeStartObject();
         jgen.writeFieldName("element");
         jgen.writeStartArray();
+
         for(Integer element : value.list) {
+
             jgen.writeNumber(element);
         }
+
         jgen.writeEndArray();
         jgen.writeEndObject();
         jgen.writeEndObject();
     }
-
 }

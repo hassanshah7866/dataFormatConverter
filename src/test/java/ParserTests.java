@@ -12,7 +12,7 @@ public class ParserTests {
     @Test
     public void parseRootFromJson () {
 
-        String json1 =
+        String json =
                         "{\n" +
                         "\"root\": {\n" +
                         "\"element\": 78,\n" +
@@ -33,7 +33,7 @@ public class ParserTests {
         ObjectMapper xmlMapper = new XmlMapper();
         try{
             //Integer element = jsonMapper.readValue(json, Integer.TYPE);
-            Root root = jsonMapper.readValue(json1, Root.class);
+            Root root = jsonMapper.readValue(json, Root.class);
             //Root root = jsonMapper.readValue(json,Root.class);
             String xml = xmlMapper.writeValueAsString(root);
             Assert.assertEquals(correctXml, xml);
@@ -73,7 +73,7 @@ public class ParserTests {
         ObjectMapper jsonMapper = new ObjectMapper();
         ObjectMapper xmlMapper = new XmlMapper();
         try{
-            //Integer element = jsonMapper.readValue(json, Integer.TYPE);
+
             Root root = xmlMapper.readValue(xml, Root.class);
             String json = jsonMapper.writeValueAsString(root);
             Assert.assertEquals(correctJson, json);

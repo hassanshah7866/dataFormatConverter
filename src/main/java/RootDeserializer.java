@@ -3,6 +3,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.dataformat.xml.deser.FromXmlParser;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,7 +28,16 @@ public class RootDeserializer extends StdDeserializer<Root> {
 
         Root root = new Root();
         JsonNode externalNode = jp.readValueAsTree();
-        JsonNode rootNode = externalNode.get("root");
+        JsonNode rootNode;
+
+        if (jp.getClass().equals(FromXmlParser.class)) {
+
+            rootNode = externalNode;
+        }else {
+
+            rootNode = externalNode.get("root");
+        }
+
         Integer element;
         List<Integer> elements = new ArrayList<>();
 
